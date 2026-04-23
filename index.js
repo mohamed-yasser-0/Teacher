@@ -1,4 +1,6 @@
 const express = require("express")
+const cors = require("cors")
+
 const mongoose = require('mongoose');
 
 const dns = require('dns');
@@ -10,6 +12,7 @@ const usersRouter = require("./routes/users.routes.js");
 require('dotenv').config();
 
 const app = express()
+app.use(cors())
 app.use(express.json())
 
 mongoose
@@ -35,5 +38,8 @@ app.use((error, req, res, next) => {
         message: error.message || 'Something went wrong'
     });
 });
+const PORT = process.env.PORT || 1000
 
-app.listen(1000, () => { console.log("alhamd llah") })
+app.listen(PORT, () => {
+    console.log("Server running on port", PORT)
+})
