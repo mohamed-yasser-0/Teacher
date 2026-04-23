@@ -3,9 +3,9 @@ const { register, login } = require("../controllers/Users.controller.js")
 const router = express.Router()
 
 
-router.route("api/register")
+router.route("/register")
     .post(register)
-router.route("api/login")
+router.route("/login")
     .post(login)
 
 module.exports = router
