@@ -13,7 +13,7 @@ const app = express()
 app.use(express.json())
 
 mongoose
-    .connect("mongodb+srv://moha:123@cluster0.ebncbe6.mongodb.net/?appName=Cluster0")
+    .connect(process.env.MONGODB_URL)
     .then(() => {
         console.log("Connected successfully with MongoDB");
     })
