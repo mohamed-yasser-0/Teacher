@@ -16,7 +16,11 @@ const courseSchema = new mongoose.Schema({
         minlength: 10,
     },
 
-    content: {
+    cat: {
+        type: String,
+        required: true,
+    },
+    level: {
         type: String,
         required: true,
     },
