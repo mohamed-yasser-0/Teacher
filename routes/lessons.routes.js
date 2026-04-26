@@ -1,12 +1,13 @@
 const express = require("express")
-const { postLessons, getSingleLesson } = require("../controllers/Lessons.controller")
+const { postLessons, getSingleLesson, getLessons } = require("../controllers/Lessons.controller")
 const verifyToken = require("../middleware/verifyToken")
 const allowdTo = require("../middleware/allowdTo")
 const router = express.Router()
 
 
-router.route("/:idCourse/")
+router.route("/:idCourse")
     .post(verifyToken,allowdTo("ADMIN"),postLessons)
+    .get(verifyToken,getLessons)
 router.route("/:idLesson")
     .get(verifyToken,getSingleLesson)
 

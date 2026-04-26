@@ -20,6 +20,21 @@ const postLessons = AsyncWrapper(async (req, res, next) => {
         }
     })
 })
+const getLessons = AsyncWrapper(async (req, res, next) => {
+    const id = req.params.idCourse
+    const course = await Course.findById(id)
+    if (!course) {
+        const error = appError.create("course not found", 404, FAIL)
+        return next(error)
+    }
+    const lessons = await Lesson.find({ idCours: id })
+    res.send({
+        "status": SUCCESS,
+        "data": {
+            lessons
+        }
+    })
+})
 const getSingleLesson = AsyncWrapper(async (req, res, next) => {
 
     const idLesso = req.params.idLesson
@@ -36,4 +51,4 @@ const getSingleLesson = AsyncWrapper(async (req, res, next) => {
         }
     })
 })
-module.exports = { postLessons, getSingleLesson }
+module.exports = { postLessons, getSingleLesson ,getLessons }
