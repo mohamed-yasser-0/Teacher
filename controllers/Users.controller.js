@@ -6,6 +6,19 @@ const jwt = require("jsonwebtoken");
 const JWT = require("../utils/JWT.js");
 const appError = require("../utils/appError.js");
 
+const user = AsyncWrapper(async (req, res, next) => {
+    const user = await User.findById(req.user.id)
+    if (!user) {
+        const error = appError.create("User not found", 404, FAIL);
+        return next(error);
+    }
+    res.send({
+        "status": SUCCESS,
+        "data": {
+            user
+        }
+    })
+})
 const register = AsyncWrapper(async (req, res, next) => {
     const { password, number } = req.body;
     if (!password || !number) {
@@ -34,7 +47,7 @@ const login = AsyncWrapper(async (req, res, next) => {
         return next(error);
     }
 
-    const token = await JWT({ id: user._id, name: user.name, role: user.role })
+    const token = await JWT({ id: user._id, role: user.role })
     res.send({
         "status": SUCCESS,
         "data": {
@@ -42,4 +55,4 @@ const login = AsyncWrapper(async (req, res, next) => {
         }
     })
 })
-module.exports = { register, login }
+module.exports = { register, login, user }

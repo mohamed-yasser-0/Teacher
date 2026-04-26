@@ -28,7 +28,7 @@ const getSingleCourse = AsyncWrapper(async (req, res, next) => {
     const id = req.params.idCourse
     const course = await Course.findById(id)
     if (!course) {
-        const error = appError.create("course not found",404, FAIL)
+        const error = appError.create("course not found", 404, FAIL)
         return next(error)
     }
     res.send({
