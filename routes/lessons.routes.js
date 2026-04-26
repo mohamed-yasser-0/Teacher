@@ -8,7 +8,7 @@ const router = express.Router()
 router.route("/:idCourse")
     .post(verifyToken,allowdTo("ADMIN"),postLessons)
     .get(verifyToken,getLessons)
-router.route("/:idLesson")
+router.route("/single/:idLesson")
     .get(verifyToken,getSingleLesson)
 
 
