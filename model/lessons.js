@@ -1,28 +1,56 @@
 const mongoose = require('mongoose');
 
 const lessonSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    idCours: {
-        type: String,
-        required: true
-    },
-    order: {
-        type: Number,
-        required: true
-    },
-    description: {
-        type: String
-    },
-    videoUrl: {
-        type: String
-    },
-    duration: {
-        type: Number //
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  idCours: {
+    type: String,
+    required: true
+  },
+  order: {
+    type: Number,
+    required: true
+  },
+  description: {
+    type: String
+  },
+  videoUrl: {
+    type: String
+  },
+  duration: {
+    type: Number
+  },
+
+  summaryPoints: [
+    {
+      type: String
     }
+  ],
+
+  quiz: {
+    title: {
+      type: String
+    },
+    questions: [
+      {
+        text: {
+          type: String
+        },
+        options: [
+          {
+            type: String
+          }
+        ],
+        correct: {
+          type: Number
+        }
+      }
+    ]
+  }
+
 });
 
 module.exports = mongoose.model('Lesson', lessonSchema);
