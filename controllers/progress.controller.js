@@ -12,7 +12,6 @@ const postProgress = AsyncWrapper(async (req, res, next) => {
         const error = appError.create("lesson not found", 404, FAIL)
         return next(error)
     }
-    console.log(req.user.id)
     const progress = new Progress({ ...req.body, lessonId: id, userId: req.user.id, courseId: lesson.idCours })
     await progress.save()
     res.send({
@@ -22,21 +21,18 @@ const postProgress = AsyncWrapper(async (req, res, next) => {
         }
     })
 })
-// const getProgress = AsyncWrapper(async (req, res, next) => {
+const getProgress = AsyncWrapper(async (req, res, next) => {
 
-//     const idLesso = req.params.idLesson
-//     const user = await Lesson.findById(req.user.id)
-//     const user = await Lesson.findById(idLesso)
-//     if (!user) {
-//         const error = appError.create("user not found", 404, FAIL)
-//         return next(error)
-//     }
+    const progress = await Progress.find({ userId: req.user.id });
 
-//     res.send({
-//         "status": SUCCESS,
-//         "data": {
-//             lesson
-//         }
-//     })
-// })
-module.exports = { postProgress }
+    if (!progress || progress.length === 0) {
+        const error = appError.create("No progress found", 404, FAIL);
+        return next(error);
+    }
+
+    res.send({
+        status: SUCCESS,
+        data: progress
+    });
+});
+module.exports = { postProgress, getProgress }
