@@ -18,7 +18,8 @@ const lessonSchema = new mongoose.Schema({
     type: String
   },
   videoUrl: {
-    type: String
+    type: String,
+    required: true
   },
   duration: {
     type: Number
