@@ -32,9 +32,6 @@ const lessonSchema = new mongoose.Schema({
   ],
 
   quiz: {
-    title: {
-      type: String
-    },
     questions: [
       {
         text: {

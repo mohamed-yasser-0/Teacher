@@ -6,21 +6,38 @@ const appError = require("../utils/appError.js");
 const { SUCCESS, FAIL } = require("../utils/httpStatusText.js");
 
 const postProgress = AsyncWrapper(async (req, res, next) => {
-    const id = req.params.idLesson
-    const lesson = await Lesson.findById(id)
+    const id = req.params.idLesson;
+
+    const lesson = await Lesson.findById(id);
+
     if (!lesson) {
-        const error = appError.create("lesson not found", 404, FAIL)
-        return next(error)
+        return next(appError.create("الدرس غير موجود", 404, FAIL));
     }
-    const progress = new Progress({ ...req.body, lessonId: id, userId: req.user.id, courseId: lesson.idCours })
-    await progress.save()
-    res.send({
-        "status": SUCCESS,
-        "data": {
-            progress
-        }
-    })
-})
+
+    const existingProgress = await Progress.findOne({
+        userId: req.user.id,
+        lessonId: id
+    });
+
+    if (existingProgress) {
+        return next(appError.create("تم تسجيل هذا الدرس مسبقاً", 400, FAIL));
+    }
+
+    const progress = new Progress({
+        ...req.body,
+        lessonId: id,
+        userId: req.user.id,
+        courseId: lesson.idCours
+    });
+
+    await progress.save();
+
+    res.status(201).json({
+        status: SUCCESS,
+        message: "تم تسجيل التقدم بنجاح",
+        data: { progress }
+    });
+});
 const getProgress = AsyncWrapper(async (req, res, next) => {
 
     const progress = await Progress.find({ userId: req.user.id });
