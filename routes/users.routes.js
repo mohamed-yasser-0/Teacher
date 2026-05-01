@@ -4,6 +4,7 @@ const verifyToken = require("../middleware/verifyToken.js");
 const router = express.Router()
 
 
+
 router.get("/", verifyToken, user);
 router.post("/register", register);
 router.post("/login", login);

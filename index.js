@@ -10,12 +10,13 @@ const courseRouter = require("./routes/course.routes.js");
 const lessonRouter = require("./routes/lessons.routes.js");
 const progress = require("./routes/progress.routes.js");
 const usersRouter = require("./routes/users.routes.js");
+const path = require("path");
 require('dotenv').config();
 
 const app = express()
+app.use('/uploads', express.static(path.join(__dirname, "uploads")))
 app.use(cors())
 app.use(express.json())
-
 mongoose
     .connect(process.env.MONGODB_URL)
     .then(() => {
