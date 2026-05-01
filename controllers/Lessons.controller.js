@@ -43,7 +43,7 @@ const getSingleLesson = AsyncWrapper(async (req, res, next) => {
     const idLesso = req.params.idLesson
     const lesson = await Lesson.findById(idLesso)
     if (!lesson) {
-        const error = appError.create("الكورس غير موجود", 404, FAIL)
+        const error = appError.create("الدرس غير موجود", 404, FAIL)
         return next(error)
     }
 
@@ -54,4 +54,20 @@ const getSingleLesson = AsyncWrapper(async (req, res, next) => {
         }
     })
 })
-module.exports = { postLessons, getSingleLesson, getLessons }
+const deleteleLesson = AsyncWrapper(async (req, res, next) => {
+
+    const idLesso = req.params.idLesson
+    const lesson = await Lesson.findByIdAndDelete(idLesso)
+    if (!lesson) {
+        const error = appError.create("الدرس غير موجود", 404, FAIL)
+        return next(error)
+    }
+
+    res.send({
+        "status": SUCCESS,
+        "data": {
+            lesson
+        }
+    })
+})
+module.exports = { postLessons, getSingleLesson, getLessons, deleteleLesson }
